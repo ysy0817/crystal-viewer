@@ -59,6 +59,9 @@ DEFAULTS: dict[str, Any] = {
         "point_fade_step": 0x110000,
         "text_fade_step": 0x111111,
     },
+    "rotation": {
+        "auto": True,
+    },
     "views": [
         {
             "offset": [300, 0],
@@ -152,11 +155,14 @@ DEFAULTS: dict[str, Any] = {
         "username": "",
         "password": "",
         "keepalive": 60,
+        "numeric_select": True,
         "commands": {
             "next": "+1",
             "previous": "-1",
             "listen": "turn",
             "introduce": "introduce",
+            "spin_start": "start",
+            "spin_stop": "stop",
         },
     },
     "models_file": "models.yaml",
@@ -400,6 +406,11 @@ def validate(config: Config) -> None:
     _require(
         isinstance(config.voice.duration, (int, float)) and config.voice.duration > 0,
         "voice.duration 必须大于 0",
+    )
+    _require(isinstance(config.rotation.auto, bool), "rotation.auto 必须是 true / false")
+    _require(
+        isinstance(config.mqtt.numeric_select, bool),
+        "mqtt.numeric_select 必须是 true / false",
     )
 
 

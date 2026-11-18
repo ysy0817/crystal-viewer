@@ -179,11 +179,14 @@ python -m crystal_viewer --list-models  # 列出所有晶胞
 | --- | --- |
 | `+1` | 下一个晶胞 |
 | `-1` | 上一个晶胞 |
+| `0` ~ `6` | 直接跳到第 1~7 个晶胞（序号从 0 开始，超出范围忽略） |
+| `start` | 开始 / 恢复自动旋转 |
+| `stop` | 停止自动旋转 |
 | `turn` | 触发一次语音识别 |
 | `introduce` | 朗读当前晶胞的介绍 |
 
-指令内容可以在 `mqtt.commands` 里改。用 DFRobot IoT 平台或任意 MQTT 客户端
-往对应 Topic 发这些字符串即可。
+指令字符串在 `mqtt.commands` 里改；数字跳转由 `mqtt.numeric_select` 开关控制。
+用 DFRobot IoT 平台或任意 MQTT 客户端往对应 Topic 发这些字符串即可。
 
 ### 配套手机 App（独立仓库）
 
@@ -223,6 +226,7 @@ python -m crystal_viewer --list-models  # 列出所有晶胞
 | 文字颜色 | `render.text_color` | `0xFFFFFF` |
 | 渐隐快慢 | `render.*_fade_step` | `0x111111`（越大越快） |
 | 旋转速度 | `views[].spin.deg` | 2（度/帧） |
+| 启动时是否自动旋转 | `rotation.auto` | `true` |
 | 视图离屏幕中心的距离 | `views[].offset` | 300 像素 |
 | 模型名称位置 | `views[].label_offset` | 左右 350 / 上下 185 |
 | 名称旋转角度 | `views[].label_rotation` | 90 / 270 / 0 / 0 |

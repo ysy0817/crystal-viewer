@@ -107,4 +107,13 @@ class MqttLink:
                 except Exception:  # pragma: no cover - 防止线程崩溃
                     log.exception("处理 MQTT 动作 %r 时出错", action)
                 return
+
+        # 数字指令：直接跳到第 N 个晶胞（序号从 0 开始）
+        if getattr(self._config, "numeric_select", False) and payload.isdigit():
+            try:
+                self._on_action(int(payload))
+            except Exception:  # pragma: no cover - 防止线程崩溃
+                log.exception("处理数字指令 %r 时出错", payload)
+            return
+
         log.debug("未识别的 MQTT 命令: %r（可用: %s）", payload, commands)

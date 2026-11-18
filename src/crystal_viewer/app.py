@@ -56,6 +56,7 @@ class CrystalApp:
         }
 
         self.index = 0
+        self._auto_spin = bool(config.rotation.auto)
         self._phase = "idle"  # idle → out（变暗）→ in（变亮）
         self._pending_index = 0
         self._queue: "queue.Queue[Any]" = queue.Queue()
@@ -252,14 +253,32 @@ class CrystalApp:
     def _handle_action(self, action: Any) -> None:
         if action in ("next", "previous"):
             self.request_switch(1 if action == "next" else -1)
+        elif action == "spin_start":
+            self._set_auto_spin(True)
+        elif action == "spin_stop":
+            self._set_auto_spin(False)
         elif action == "listen":
             self._start_listening()
         elif action == "introduce":
             self._start_introduce()
         elif isinstance(action, int):
-            self.request_switch(index=action)
+            self.jump_to(action)
         else:
             log.debug("忽略未知动作: %r", action)
+
+    def _set_auto_spin(self, enabled: bool) -> None:
+        """开始 / 停止自动旋转，对应 MQTT 的 start / stop 指令。"""
+        if self._auto_spin == enabled:
+            return
+        self._auto_spin = enabled
+        log.info("自动旋转: %s", "开始" if enabled else "停止")
+
+    def jump_to(self, index: int) -> None:
+        """直接跳到指定序号的晶胞（从 0 开始）；超出范围则忽略。"""
+        if not 0 <= index < len(self.models):
+            log.warning("晶胞序号 %d 超出范围（可用 0~%d）", index, len(self.models) - 1)
+            return
+        self.request_switch(index=index)
 
     # -- 切换 -------------------------------------------------------------- #
     def request_switch(self, delta: int = 0, index: int | None = None) -> None:
@@ -268,8 +287,13 @@ class CrystalApp:
             log.debug("切换动画进行中，忽略本次请求")
             return
         total = len(self.models)
-        target = index if index is not None else (self.index + delta) % total
-        target = int(target) % total
+        if index is not None:
+            if not 0 <= int(index) < total:
+                log.warning("晶胞序号 %d 超出范围（可用 0~%d）", int(index), total - 1)
+                return
+            target = int(index)
+        else:
+            target = (self.index + delta) % total
         if target == self.index:
             return
         self._pending_index = target
@@ -312,7 +336,8 @@ class CrystalApp:
             origin_x = center_x + offset_x
             origin_y = center_y + offset_y
 
-            view.advance()
+            if self._auto_spin:
+                view.advance()
             projected = view.projected_xy()
 
             for start, end in model.edges:
