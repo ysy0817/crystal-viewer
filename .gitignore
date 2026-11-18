@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+# 本地依赖 / 虚拟环境
+.venv/
+venv/
+env/
+.pydeps/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# 运行产物
+output.wav
+output.mp3
+*.log
+
+# 本地私有密钥（放 API Key / 密码，不要提交）
+keys.yaml
+
+# pip / 临时文件残留
+pip-unpack-*/
+tmp*/
+
+# 离屏渲染测试产物
+render-*.png
+
+# 编辑器
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,49 @@
+# ==============================================================================
+# 晶胞清单
+# ------------------------------------------------------------------------------
+# 每个条目描述一种可切换显示的晶体结构：
+#   key    ：英文标识，同时是数据文件名（edges 对应 data/edges/<key>.csv）
+#   name   ：屏幕上显示的模型名称（可写中文）
+#   edges  ：棱线数据文件（相对项目根目录）；留空则自动用 data/edges/<key>.csv
+#   intro  ：介绍文本文件（相对项目根目录）；留空则自动用 data/intro/<key>.txt
+#
+# 增删条目即可增删晶胞，代码无需改动 —— 顺序对应键盘上的 F1、F2、F3……
+#
+# 数据文件格式说明见 README 的"新增一种晶胞"一节。
+# ==============================================================================
+
+models:
+  - key: simple_cubic
+    name: 简单立方堆积
+    edges: data/edges/simple_cubic.csv
+    intro: data/intro/simple_cubic.txt
+
+  - key: cscl_bcc
+    name: CsCl型体心立方
+    edges: data/edges/cscl_bcc.csv
+    intro: data/intro/cscl_bcc.txt
+
+  - key: zns_fcc
+    name: ZnS型面心立方
+    edges: data/edges/zns_fcc.csv
+    intro: data/intro/zns_fcc.txt
+
+  - key: nacl_fcc
+    name: NaCl型面心立方
+    edges: data/edges/nacl_fcc.csv
+    intro: data/intro/nacl_fcc.txt
+
+  - key: hcp_ab
+    name: 六方最密堆积
+    edges: data/edges/hcp_ab.csv
+    intro: data/intro/hcp_ab.txt
+
+  - key: cu_fcc
+    name: Cu面心立方
+    edges: data/edges/cu_fcc.csv
+    intro: data/intro/cu_fcc.txt
+
+  - key: caf2
+    name: CaF₂型
+    edges: data/edges/caf2.csv
+    intro: data/intro/caf2.txt

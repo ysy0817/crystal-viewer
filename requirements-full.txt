@@ -1,0 +1,9 @@
+# 完整功能依赖：摄像头手势 + 麦克风语音
+-r requirements.txt
+
+# 手势识别（需要摄像头）
+opencv-python>=4.6
+mediapipe>=0.10
+
+# 录音（需要麦克风）
+pyaudio>=0.2.11

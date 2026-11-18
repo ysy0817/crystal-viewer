@@ -1,0 +1,5 @@
+# 最小运行依赖（键盘操作 + 四视图演示 + MQTT 遥控）
+numpy>=1.21
+pygame>=2.1
+PyYAML>=6.0
+paho-mqtt>=1.6

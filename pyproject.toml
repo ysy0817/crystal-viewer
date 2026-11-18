@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crystal-viewer"
+version = "1.0.0"
+description = "四视图旋转展示常见晶体晶胞的教学演示程序，支持键盘/手势/语音/MQTT 切换"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "ysy0817", email = "264814001@qq.com" }]
+keywords = ["chemistry", "crystal", "pygame", "education", "visualization"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Win32 (MS Windows)",
+    "Intended Audience :: Education",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+dependencies = [
+    "numpy>=1.21",
+    "pygame>=2.1",
+    "PyYAML>=6.0",
+    "paho-mqtt>=1.6",
+]
+
+[project.optional-dependencies]
+gesture = ["opencv-python>=4.6", "mediapipe>=0.10"]
+voice = ["pyaudio>=0.2.11"]
+all = ["opencv-python>=4.6", "mediapipe>=0.10", "pyaudio>=0.2.11"]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+crystal-viewer = "crystal_viewer.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
