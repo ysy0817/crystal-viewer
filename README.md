@@ -19,6 +19,7 @@
 - [参数配置](#参数配置)
 - [数据文件与新增晶胞](#数据文件与新增晶胞)
 - [项目结构](#项目结构)
+- [相关仓库](#相关仓库)
 - [常见问题](#常见问题)
 - [开发](#开发)
 
@@ -35,6 +36,8 @@
   - 摄像头手势：手腕左右移动切换
   - 语音：说"下一个 / 上一个"
   - MQTT：手机 APP 或物联网平台远程发指令
+- **配套手机 App**：独立的 Android 遥控器仓库
+  [crystal-viewer-remote](https://github.com/ysy0817/crystal-viewer-remote)，点按钮即可远程发指令
 - **语音介绍**：收到 `introduce` 指令后朗读当前晶胞的讲解文字
 - **参数全部外置**：窗口、颜色、缩放、转速、灵敏度、密钥都在配置文件里
 - **可选依赖**：缺 `mediapipe` / `pyaudio` 只会禁用对应功能，程序照常运行
@@ -181,6 +184,20 @@ python -m crystal_viewer --list-models  # 列出所有晶胞
 
 指令内容可以在 `mqtt.commands` 里改。用 DFRobot IoT 平台或任意 MQTT 客户端
 往对应 Topic 发这些字符串即可。
+
+### 配套手机 App（独立仓库）
+
+桌面程序本身没有手机界面。配套的 Android 遥控器单独放在**另一个仓库**里：
+
+**https://github.com/ysy0817/crystal-viewer-remote**
+
+- 四个功能按钮：开始 / 停止 / 语音介绍 / 录音
+- 7 个数字按钮：`0` ~ `6`
+- Broker、Topic、账号密码填在 App 自己的 `keys.properties`，与本仓库完全独立
+- 构建与使用说明见该仓库的 README
+
+它本质上只是往同一个 MQTT Topic 发字符串。所以不装 App、直接用任何 MQTT 客户端
+（MQTTX、手机 MQTT 工具等）发送上表中的指令，效果完全一样。
 
 ---
 
@@ -408,6 +425,17 @@ pytest
 `geometry`、`config`、`effects`、`models` 都不依赖 pygame，可以单独测试。
 
 改动渲染公式前建议先看 [docs/geometry.md](docs/geometry.md)。
+
+---
+
+## 相关仓库
+
+| 仓库 | 内容 |
+| --- | --- |
+| [crystal-viewer](https://github.com/ysy0817/crystal-viewer) | 本仓库：桌面端四视图晶体结构演示（Python + Pygame） |
+| [crystal-viewer-remote](https://github.com/ysy0817/crystal-viewer-remote) | Android 遥控器 App（Kotlin / Java + MQTT），通过 MQTT 远程控制本程序 |
+
+两个仓库相互独立，密钥各管各的：本仓库用 `keys.yaml`，App 用 `keys.properties`。
 
 ---
 
